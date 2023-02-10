@@ -1,0 +1,124 @@
+<div class="cart1">
+    <div class="container " *ngIf="cartitem.length==0">
+        <div class="row">
+            <div class="col text-center mt-5" >
+                <img src="https://cdn3.iconfinder.com/data/icons/shopping-and-ecommerce-29/90/empty_cart-512.png" style="margin-top: 200px;" height="250" width="250" alt="">
+                <h2 class="" style="margin-top: 50px;" >Cart Empty</h2>
+                <button routerLink="/" class=" mt-3 btn btn-primary">Shop Now</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<section class="h-100 gradient-custom" *ngIf="cartitem.length!=0">
+    <div class="container py-5">
+      <div class="row d-flex justify-content-center my-4">
+        <div class="col-md-8">
+          <div class="card mb-4">
+            <div class="card-body">
+              <!-- Single item -->
+              <div class="row"  *ngFor="let Product of cartitem,let i=index">
+                <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                  <!-- Image -->
+                  <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                    <img [src]=Product.image
+                      class="w-100" alt="Blue Jeans Jacket" />
+                    <!-- <a href="#!">
+                      <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
+                    </a> -->
+                  </div>
+                  <!-- Image -->
+                </div>
+  
+                <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+                  <!-- Data -->
+                  <p><strong>{{i+1}}.{{Product.title}}</strong></p>
+                  <p>{{Product.description}}</p>
+                  <!-- <p>Size: M</p> -->
+                  <button type="button" (click)="removecart(Product)" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
+                    title="Remove item">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                  <button type="button" class="btn btn-danger btn-sm mb-2" data-mdb-toggle="tooltip"
+                    title="Move to the wish list">
+                    <i class="fas fa-heart"></i>
+                  </button>
+                  <!-- Data -->
+                </div>
+  
+                <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                  <!-- Quantity -->
+                  <div class="d-flex mb-4" style="max-width: 300px">
+                    <button class="btn btn-primary px-3 me-2"
+                      onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                      <i class="fas fa-minus"></i>
+                    </button>
+  
+                    <div class="form-outline">
+                      <input id="form1" min="0" name="quantity" value="1" type="number" class="form-control" />
+                      <label class="form-label" align="center" for="form1">Quantity</label>
+                    </div>
+  
+                    <button class="btn btn-primary px-3 ms-2"
+                      onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                      <i class="fas fa-plus"></i>
+                    </button>
+                  </div>
+                  <p class="text-start text-md-center">
+                    <strong>${{Product.price}}</strong>
+                  </p>
+                  <!-- Price -->
+                </div>
+                <hr  class="my-4">
+              </div>
+              <!-- Single item -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="m-3" align="center">
+        <button (click)="removeall()" class="btn btn-danger m-3">Empty Cart</button>
+        <button routerLink="/" class="btn btn-primary m-3">Shop More</button>
+        <button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-success m-3">Check Out</button>
+        <b>Grand Total:${{grand}}</b>
+    </div>
+  </section>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Check Out Page</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <h1>Delivery Address</h1>
+      <form action="">
+        <input type="text" class="form-control mb-2" placeholder="Enter your Name" name="" id="">
+        <input type="text" class="form-control mb-2" placeholder="Area/Street" name="" id="">
+        <input type="text" class="form-control mb-2" placeholder="House No." name="" id="">
+        <input type="text" class="form-control mb-2" placeholder="Pincode" name="" id="">
+        <input type="text" class="form-control mb-2" placeholder="State" name="" id="">
+        <input type="text" class="form-control mb-2" placeholder="Contact No" name="" id="">
+      </form>
+
+      <div [ngSwitch]="grand">
+        <h2>Discount</h2>
+        <img (click)="discount5per()" *ngSwitchCase="5" width="100px" height="80px" src="https://media.istockphoto.com/id/1270314063/vector/promo-code-coupon-code-label-design-geometric-flat-banner-modern-vector-illustration.jpg?s=612x612&w=0&k=20&c=GeVTLxdNr-uIeFGatkk0-bAQMn0XoW4-Cs8oJODJEns=" alt="">
+        <img  (click)="discount5per()" *ngSwitchCase="10" width="100px" height="80px" src="https://www.nicepng.com/png/detail/430-4304538_10-percent-off-coupon-code-internet-coupon.png">
+        <img (click)="discount5per()" *ngSwitchCase="50" width="140px" height="140px" src="https://media.alpha-solutions.com/us/-/media/alphawebsite2019/insight/coupon.ashx?h=600&iar=0&w=900&hash=7C4548BBE585FCFBCDA375F23085FD7D">
+      </div>
+      </div>
+      <div>
+        <p>Your Grand Total:{{updatedgrand}}</p>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Proceed</button>
+      </div>
+    </div>
+  </div>
+</div>
